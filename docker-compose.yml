@@ -5,8 +5,7 @@ services:
     restart: always
     hostname: telegraf
     volumes:
-      - ../files/config/telegraf.conf:/etc/telegraf/telegraf.conf:ro
-      - ../files/config/telegraf.d:/etc/telegraf/telegraf.d:ro
+      - ../files/config/telegraf:/etc/telegraf:ro
     depends_on:
       - influxdb
     networks:
@@ -20,13 +19,13 @@ services:
       - INFLUXDB_ADMIN_USER=${INFLUXDB_ADMIN_USER:-admin} # Define in Dokploy environment
       - INFLUXDB_ADMIN_PASSWORD=${INFLUXDB_ADMIN_PASSWORD:-password} # Define in Dokploy environment
     volumes:
-      - ../files/config/influxdb.conf:/etc/influxdb/influxdb.conf:ro
+      - ../files/config/influxdb:/etc/influxdb:ro
       - ../files/influxdb:/var/lib/influxdb:rw
     networks:
       - dokploy-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.influxdb.rule=Host(`${INFLUXDB_HOST:-influxdb.example.com}`)" # Define INFLUXDB_HOST in Dokploy
+      - "traefik.http.routers.influxdb.rule=Host(`${INFLUXDB_HOST:-influxdb.iwebx.com.au}`)" # Define INFLUXDB_HOST in Dokploy
       - "traefik.http.routers.influxdb.entrypoints=websecure"
       - "traefik.http.routers.influxdb.tls.certresolver=letsencrypt"
       - "traefik.http.services.influxdb.loadbalancer.server.port=8086"
@@ -50,7 +49,7 @@ services:
       - dokploy-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.chronograf.rule=Host(`${CHRONOGRAF_HOST:-chronograf.example.com}`)" # Define CHRONOGRAF_HOST in Dokploy
+      - "traefik.http.routers.chronograf.rule=Host(`${CHRONOGRAF_HOST:-chronograf.iwebx.com.au}`)" # Define CHRONOGRAF_HOST in Dokploy
       - "traefik.http.routers.chronograf.entrypoints=websecure"
       - "traefik.http.routers.chronograf.tls.certresolver=letsencrypt"
       - "traefik.http.services.chronograf.loadbalancer.server.port=8888"
@@ -60,7 +59,7 @@ services:
     restart: always
     hostname: kapacitor
     volumes:
-      - ../files/config/kapacitor.conf:/etc/kapacitor/kapacitor.conf:ro
+      - ../files/config/kapacitor:/etc/kapacitor:ro
       - ../files/kapacitor:/var/lib/kapacitor:rw
     depends_on:
       - influxdb
@@ -68,7 +67,7 @@ services:
       - dokploy-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.kapacitor.rule=Host(`${KAPACITOR_HOST:-kapacitor.example.com}`)" # Define KAPACITOR_HOST in Dokploy
+      - "traefik.http.routers.kapacitor.rule=Host(`${KAPACITOR_HOST:-kapacitor.iwebx.com.au}`)" # Define KAPACITOR_HOST in Dokploy
       - "traefik.http.routers.kapacitor.entrypoints=websecure"
       - "traefik.http.routers.kapacitor.tls.certresolver=letsencrypt"
       - "traefik.http.services.kapacitor.loadbalancer.server.port=9092"
