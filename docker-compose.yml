@@ -65,8 +65,8 @@ services:
       - KAPACITOR_INFLUXDB_0_USERNAME=admin
       - KAPACITOR_INFLUXDB_0_PASSWORD=password
     volumes:
-      - ./volumes/config/telegraf.conf:/etc/telegraf/telegraf.conf:ro
-      - ./volumes/config/telegraf.d:/etc/telegraf/telegraf.d:ro
+      - ./volumes/config/kapacitor.conf:/etc/kapacitor/kapacitor.conf:ro
+      - ./volumes/kapacitor:/var/lib/kapacitor:rw
     depends_on:
       - influxdb
     networks:
