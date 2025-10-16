@@ -67,6 +67,8 @@ services:
     volumes:
       - ./volumes/config/kapacitor.conf:/etc/kapacitor/kapacitor.conf:ro
       - ./volumes/kapacitor:/var/lib/kapacitor:rw
+      - ./scripts/entrypoint.sh:/scripts/entrypoint.sh
+    entrypoint: ["sh", "./scripts/entrypoint.sh"]
     depends_on:
       - influxdb
     networks:
