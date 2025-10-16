@@ -44,7 +44,9 @@ services:
       - 'KAPACITOR_USERNAME=${INFLUXDB_ADMIN_USER:-admin}'
       - 'KAPACITOR_PASSWORD=${INFLUXDB_ADMIN_PASSWORD:-password}'
     volumes:
-      - './volumes/chronograf:/var/lib/chronograf:rw'
+      - ./volumes/chronograf:/var/lib/chronograf:rw
+      - ./scripts/fix_permissions_chronograph.sh:/scripts/entrypoint.sh
+    entrypoint: [ "sh", "./scripts/entrypoint.sh" ]
     depends_on:
       - influxdb
     networks:
