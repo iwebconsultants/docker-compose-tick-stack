@@ -28,7 +28,7 @@ services:
     labels:
       - traefik.enable=true
       - >-
-        traefik.http.routers.influxdb.rule=Host(`${INFLUXDB_HOST:-influxdb.iwebx.com.au}`)
+        traefik.http.routers.influxdb.rule=Host(`${INFLUXDB_HOST:-influxdb.iotwise.com.au}`)
       - traefik.http.routers.influxdb.entrypoints=websecure
       - traefik.http.routers.influxdb.tls.certresolver=letsencrypt
       - traefik.http.services.influxdb.loadbalancer.server.port=8086
@@ -54,7 +54,7 @@ services:
     labels:
       - traefik.enable=true
       - >-
-        traefik.http.routers.chronograf.rule=Host(`${CHRONOGRAF_HOST:-chronograf.iwebx.com.au}`)
+        traefik.http.routers.chronograf.rule=Host(`${CHRONOGRAF_HOST:-chronograf.iotwise.com.au}`)
       - traefik.http.routers.chronograf.entrypoints=websecure
       - traefik.http.routers.chronograf.tls.certresolver=letsencrypt
       - traefik.http.services.chronograf.loadbalancer.server.port=8888
@@ -78,7 +78,7 @@ services:
     labels:
       - traefik.enable=true
       - >-
-        traefik.http.routers.kapacitor.rule=Host(`${KAPACITOR_HOST:-kapacitor.iwebx.com.au}`)
+        traefik.http.routers.kapacitor.rule=Host(`${KAPACITOR_HOST:-kapacitor.iotwise.com.au}`)
       - traefik.http.routers.kapacitor.entrypoints=websecure
       - traefik.http.routers.kapacitor.tls.certresolver=letsencrypt
       - traefik.http.services.kapacitor.loadbalancer.server.port=9092
