@@ -1,32 +1,32 @@
 services:
-#  traefik:
-#    image: 'traefik:v2.10' # Use the latest Traefik version
-#    container_name: traefik
-#    restart: always
-#    command:
-#      - --api.dashboard=true # Enable the Traefik dashboard
-#      - --providers.docker=true
-#      - --providers.docker.exposedbydefault=false # Only containers with traefik.enable=true will be proxied
-#      - --entrypoints.web.address=:80 # HTTP entry point
-#      - --entrypoints.websecure.address=:443 # HTTPS entry point
-#      - --certificatesresolvers.letsencrypt.acme.httpchallenge=true
-#      - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web
-#      - --certificatesresolvers.letsencrypt.acme.email=your-email@example.com # Set to your email
-#      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json # Persist certificates
-#    ports:
-#      - "80:80"    # HTTP traffic
-#      - "443:443"  # HTTPS traffic
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock:ro # Required for Docker provider
-#      - ./letsencrypt:/letsencrypt # Persist Let's Encrypt certificates
-#    networks:
-#      - dokploy-network # Attach Traefik to the dokploy-network
-#    labels:
-#      - traefik.enable=true
-#      - "traefik.http.routers.dashboard.rule=Host(`dashboard.iwebx.com.au`)" # Dashboard route
-#      - "traefik.http.routers.dashboard.entrypoints=websecure"
-#      - "traefik.http.routers.dashboard.service=api@internal"
-#      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
+  traefik:
+    image: 'traefik:v2.10' # Use the latest Traefik version
+    container_name: traefik
+    restart: always
+    command:
+      - --api.dashboard=true # Enable the Traefik dashboard
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false # Only containers with traefik.enable=true will be proxied
+      - --entrypoints.web.address=:80 # HTTP entry point
+      - --entrypoints.websecure.address=:443 # HTTPS entry point
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge=true
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web
+      - --certificatesresolvers.letsencrypt.acme.email=your-email@example.com # Set to your email
+      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json # Persist certificates
+    ports:
+      - "80:80"    # HTTP traffic
+      - "443:443"  # HTTPS traffic
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro # Required for Docker provider
+      - ./letsencrypt:/letsencrypt # Persist Let's Encrypt certificates
+    networks:
+      - dokploy-network # Attach Traefik to the dokploy-network
+    labels:
+      - traefik.enable=true
+      - "traefik.http.routers.dashboard.rule=Host(`dashboard.iotwise.com.au`)" # Dashboard route
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
 
   telegraf:
     image: 'telegraf:${TELEGRAF_VERSION:-latest}'
@@ -44,8 +44,8 @@ services:
       - dokploy-network
   influxdb:
     image: 'influxdb:1.8'
-    ports:
-      - "8086:8086" # Expose InfluxDB directly
+#    ports:
+#      - "8086:8086" # Expose InfluxDB directly
     restart: always
     hostname: influxdb
     environment:
@@ -57,17 +57,17 @@ services:
     command: influxd -config /etc/influxdb/influxdb.conf # Referencing custom config
     networks:
       - dokploy-network
-#    labels:
-#      - traefik.enable=true
-#      - >-
-#        traefik.http.routers.influxdb.rule=Host(`${INFLUXDB_HOST:-influxdb.iwebx.com.au}`)
-#      - traefik.http.routers.influxdb.entrypoints=websecure
-#      - traefik.http.routers.influxdb.tls.certresolver=letsencrypt
-#      - traefik.http.services.influxdb.loadbalancer.server.port=8086
+    labels:
+      - traefik.enable=true
+      - >-
+        traefik.http.routers.influxdb.rule=Host(`${INFLUXDB_HOST:-influxdb.iotwise.com.au}`)
+      - traefik.http.routers.influxdb.entrypoints=websecure
+      - traefik.http.routers.influxdb.tls.certresolver=letsencrypt
+      - traefik.http.services.influxdb.loadbalancer.server.port=8086
   chronograf:
     image: 'chronograf:${CHRONOGRAF_VERSION:-latest}'
-    ports:
-      - "8888:8888" # Expose Chronograf Dashboard directly
+#    ports:
+#      - "8888:8888" # Expose Chronograf Dashboard directly
     restart: always
     hostname: chronograf
     environment:
@@ -85,17 +85,17 @@ services:
       - influxdb
     networks:
       - dokploy-network
-#    labels:
-#      - traefik.enable=true
-#      - >-
-#        traefik.http.routers.chronograf.rule=Host(`${CHRONOGRAF_HOST:-chronograf.iwebx.com.au}`)
-#      - traefik.http.routers.chronograf.entrypoints=websecure
-#      - traefik.http.routers.chronograf.tls.certresolver=letsencrypt
-#      - traefik.http.services.chronograf.loadbalancer.server.port=8888
+    labels:
+      - traefik.enable=true
+      - >-
+        traefik.http.routers.chronograf.rule=Host(`${CHRONOGRAF_HOST:-chronograf.iotwise.com.au}`)
+      - traefik.http.routers.chronograf.entrypoints=websecure
+      - traefik.http.routers.chronograf.tls.certresolver=letsencrypt
+      - traefik.http.services.chronograf.loadbalancer.server.port=8888
   kapacitor:
     image: 'kapacitor:${KAPACITOR_VERSION:-latest}'
-    ports:
-      - "9092:9092"  # Expose Kapacitor's default port directly
+#    ports:
+#      - "9092:9092"  # Expose Kapacitor's default port directly
     restart: always
     hostname: kapacitor
     environment:
@@ -111,13 +111,13 @@ services:
       - influxdb
     networks:
       - dokploy-network
-#    labels:
-#      - traefik.enable=true
-#      - >-
-#        traefik.http.routers.kapacitor.rule=Host(`${KAPACITOR_HOST:-kapacitor.iwebx.com.au}`)
-#      - traefik.http.routers.kapacitor.entrypoints=websecure
-#      - traefik.http.routers.kapacitor.tls.certresolver=letsencrypt
-#      - traefik.http.services.kapacitor.loadbalancer.server.port=9092
+    labels:
+      - traefik.enable=true
+      - >-
+        traefik.http.routers.kapacitor.rule=Host(`${KAPACITOR_HOST:-kapacitor.iotwise.com.au}`)
+      - traefik.http.routers.kapacitor.entrypoints=websecure
+      - traefik.http.routers.kapacitor.tls.certresolver=letsencrypt
+      - traefik.http.services.kapacitor.loadbalancer.server.port=9092
 
 networks:
   dokploy-network:
