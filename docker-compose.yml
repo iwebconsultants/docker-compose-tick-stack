@@ -11,7 +11,7 @@ services:
       - --entrypoints.websecure.address=:443 # HTTPS entry point
       - --certificatesresolvers.letsencrypt.acme.httpchallenge=true
       - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web
-      - --certificatesresolvers.letsencrypt.acme.email=your-email@example.com # Set to your email
+      - --certificatesresolvers.letsencrypt.acme.email=nausherwan.aslam@hotmail.com # Set to your email
       - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json # Persist certificates
     ports:
       - "8080:80"    # HTTP traffic
