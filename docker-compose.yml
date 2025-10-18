@@ -14,8 +14,8 @@ services:
       - --certificatesresolvers.letsencrypt.acme.email=your-email@example.com # Set to your email
       - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json # Persist certificates
     ports:
-#      - "80:80"    # HTTP traffic
-      - "443:443"  # HTTPS traffic
+      - "8080:80"    # HTTP traffic
+      - "8443:443"  # HTTPS traffic
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Required for Docker provider
       - ./letsencrypt:/letsencrypt # Persist Let's Encrypt certificates
