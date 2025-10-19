@@ -1,33 +1,4 @@
 services:
-  traefik:
-    image: 'traefik:v2.10' # Use the latest Traefik version
-    container_name: traefik
-    restart: always
-    command:
-      - --api.dashboard=true # Enable the Traefik dashboard
-      - --providers.docker=true
-      - --providers.docker.exposedbydefault=false # Only containers with traefik.enable=true will be proxied
-      - --entrypoints.web.address=:80 # HTTP entry point
-      - --entrypoints.websecure.address=:443 # HTTPS entry point
-      - --certificatesresolvers.letsencrypt.acme.httpchallenge=true
-      - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web
-      - --certificatesresolvers.letsencrypt.acme.email=nausherwan.aslam@hotmail.com # Set to your email
-      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json # Persist certificates
-    ports:
-      - "8080:80"    # HTTP traffic
-      - "8443:443"  # HTTPS traffic
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro # Required for Docker provider
-      - ./letsencrypt:/letsencrypt # Persist Let's Encrypt certificates
-    networks:
-      - dokploy-network # Attach Traefik to the dokploy-network
-    labels:
-      - traefik.enable=true
-      - "traefik.http.routers.dashboard.rule=Host(`dashboard.iotwise.com.au`)" # Dashboard route
-      - "traefik.http.routers.dashboard.entrypoints=websecure"
-      - "traefik.http.routers.dashboard.service=api@internal"
-      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
-
   telegraf:
     image: 'telegraf:${TELEGRAF_VERSION:-latest}'
     restart: always
